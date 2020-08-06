@@ -3,13 +3,12 @@ import 'package:optimizely/src/client.dart';
 import 'package:optimizely/src/config/config_manager.dart';
 
 class OptimizelyFactory {
-  String datafile;
+  String _datafile;
 
-  OptimizelyFactory(this.datafile);
+  OptimizelyFactory(this._datafile);
 
   OptimizelyClient client() {
-    OptimizelyClient client = OptimizelyClient();
-    client.configManager = StaticProjectConfigManager(datafile);
-    return client;
+    return OptimizelyClient.withConfigManager(
+        StaticProjectConfigManager(_datafile));
   }
 }
