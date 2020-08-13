@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:optimizely/client.dart';
-import 'package:optimizely/factory.dart';
+import 'package:optimizely_agent_client/optimizely_agent.dart';
 
 void main() {
   runApp(App());
@@ -30,15 +29,17 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<OptimizelyExperiment>>
       fetchExperimentsFromOptimizelyConfig() async {
-    String data = await rootBundle.loadString('assets/100_entities.json');
-    OptimizelyFactory factory = OptimizelyFactory(data);
-    OptimizelyClient client = factory.client();
-    OptimizelyConfig optimizelyConfig = client.getOptimizelyConfig();
+    var agent =
+        OptimizelyAgent("VJ4GPwsRoNa95NN6VpS2hC", "http://127.0.0.1:8080");
+    var config = await agent.getOptimizelyConfig();
 
     List<OptimizelyExperiment> experiments = [];
-    optimizelyConfig.experimentsMap.forEach((key, value) {
-      experiments.add(value);
-    });
+    if (config.item1 == 200) {
+      config.item2.experimentsMap.forEach((key, value) {
+        experiments.add(value);
+      });
+    }
+
     return experiments;
   }
 
